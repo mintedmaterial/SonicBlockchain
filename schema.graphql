@@ -1,0 +1,219 @@
+type Transaction @entity {
+  id: ID!
+  hash: String!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+  from: Bytes!
+  to: Bytes
+  value: BigInt!
+  gasUsed: BigInt!
+  gasPrice: BigInt!
+}
+
+# Wrapped S (wS) token events
+type WSTransfer @entity(immutable: true) {
+  id: Bytes!
+  from: Bytes!
+  to: Bytes!
+  value: BigInt!
+  transaction: Transaction!
+  timestamp: BigInt!
+  blockNumber: BigInt!
+}
+
+type WSApproval @entity(immutable: true) {
+  id: Bytes!
+  owner: Bytes!
+  spender: Bytes!
+  value: BigInt!
+  transaction: Transaction!
+  timestamp: BigInt!
+  blockNumber: BigInt!
+}
+
+# SFC (Staking) related events
+type SFCDelegation @entity {
+  id: ID!
+  delegator: Bytes!
+  toValidatorId: BigInt!
+  amount: BigInt!
+  timestamp: BigInt!
+  transaction: Transaction!
+}
+
+type SFCUndelegation @entity {
+  id: ID!
+  delegator: Bytes!
+  toValidatorId: BigInt!
+  wrID: BigInt!
+  amount: BigInt!
+  timestamp: BigInt!
+  transaction: Transaction!
+}
+
+type SFCClaimedRewards @entity {
+  id: ID!
+  delegator: Bytes!
+  toValidatorId: BigInt!
+  amount: BigInt!
+  timestamp: BigInt!
+  transaction: Transaction!
+}
+
+type SFCLockedUp @entity {
+  id: ID!
+  delegator: Bytes!
+  toValidatorId: BigInt!
+  duration: BigInt!
+  amount: BigInt!
+  timestamp: BigInt!
+  transaction: Transaction!
+}
+
+# Bridge events
+type BridgeTransfer @entity(immutable: true) {
+  id: Bytes!
+  tokenAddress: Bytes!
+  from: Bytes!
+  to: Bytes!
+  amount: BigInt!
+  timestamp: BigInt!
+  blockNumber: BigInt!
+  transaction: Transaction!
+  sourceChain: String!
+  destinationChain: String!
+}
+
+# Token (USDC, EURC, USDT) common events
+type TokenTransfer @entity(immutable: true) {
+  id: Bytes!
+  token: Bytes!
+  from: Bytes!
+  to: Bytes!
+  value: BigInt!
+  transaction: Transaction!
+  timestamp: BigInt!
+  blockNumber: BigInt!
+}
+
+type TokenApproval @entity(immutable: true) {
+  id: Bytes!
+  token: Bytes!
+  owner: Bytes!
+  spender: Bytes!
+  value: BigInt!
+  transaction: Transaction!
+  timestamp: BigInt!
+  blockNumber: BigInt!
+}
+
+# Gateway infrastructure events
+type MessageSent @entity(immutable: true) {
+  id: Bytes!
+  sender: Bytes!
+  receiver: Bytes!
+  srcChainId: BigInt!
+  dstChainId: BigInt!
+  message: Bytes!
+  timestamp: BigInt!
+  blockNumber: BigInt!
+  transaction: Transaction!
+}
+
+type MessageExecuted @entity(immutable: true) {
+  id: Bytes!
+  sender: Bytes!
+  executor: Bytes!
+  srcChainId: BigInt!
+  dstChainId: BigInt!
+  message: Bytes!
+  timestamp: BigInt!
+  blockNumber: BigInt!
+  transaction: Transaction!
+}
+
+# FTM to S Upgrade Portal events
+type UpgradeInitiated @entity(immutable: true) {
+  id: Bytes!
+  from: Bytes!
+  amount: BigInt!
+  timestamp: BigInt!
+  blockNumber: BigInt!
+  transaction: Transaction!
+}
+
+type UpgradeCompleted @entity(immutable: true) {
+  id: Bytes!
+  to: Bytes!
+  amount: BigInt!
+  timestamp: BigInt!
+  blockNumber: BigInt!
+  transaction: Transaction!
+}
+
+# DEX related entities
+type Pool @entity {
+  id: ID!
+  factory: PoolFactory!
+  address: Bytes!
+  token0: Bytes!
+  token1: Bytes!
+  fee: BigInt
+  createdAt: BigInt!
+  createdAtBlockNumber: BigInt!
+  totalValueLockedToken0: BigInt!
+  totalValueLockedToken1: BigInt!
+  totalValueLockedUSD: BigDecimal!
+  volumeToken0: BigInt!
+  volumeToken1: BigInt!
+  volumeUSD: BigDecimal!
+  txCount: BigInt!
+  swaps: [Swap!]! @derivedFrom(field: "pool")
+}
+
+type PoolFactory @entity {
+  id: ID!
+  name: String!
+  poolCount: BigInt!
+  txCount: BigInt!
+  totalVolumeUSD: BigDecimal!
+  totalValueLockedUSD: BigDecimal!
+  pools: [Pool!]! @derivedFrom(field: "factory")
+}
+
+type Swap @entity(immutable: true) {
+  id: Bytes!
+  pool: Pool!
+  timestamp: BigInt!
+  sender: Bytes!
+  recipient: Bytes!
+  origin: Bytes!
+  amount0: BigInt!
+  amount1: BigInt!
+  amountUSD: BigDecimal
+  transaction: Transaction!
+  blockNumber: BigInt!
+}
+
+# Price tracking entities
+type TokenPrice @entity {
+  id: ID! # token address
+  token: Bytes!
+  priceUSD: BigDecimal!
+  lastUpdatedTimestamp: BigInt!
+}
+
+# Stats entity to track aggregated data
+type DailyStats @entity {
+  id: ID! # YYYY-MM-DD
+  date: String!
+  transactionCount: BigInt!
+  activeAddresses: BigInt!
+  totalValueLocked: BigInt!
+  bridgeInflow: BigInt!
+  bridgeOutflow: BigInt!
+  sfcTotalStaked: BigInt!
+  sfcTotalDelegated: BigInt!
+  dexVolume: BigDecimal!
+  dexSwapCount: BigInt!
+}

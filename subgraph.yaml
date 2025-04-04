@@ -1,0 +1,337 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  # DEX Factory contracts
+  # Shadow DEX
+  - kind: ethereum
+    name: ShadowPairFactory
+    network: sonic
+    source:
+      address: "0x2dA25E7446A70D7be65fd4c053948BEcAA6374c8"
+      abi: PoolFactory
+      startBlock: 1
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Pool
+        - PoolFactory
+      abis:
+        - name: PoolFactory
+          file: ./abis/PoolFactory.json
+      eventHandlers:
+        - event: PoolCreated(indexed address,indexed address,indexed address,uint24)
+          handler: handlePoolCreated
+      file: ./src/dex-mapping.ts
+      
+  # SwapX V2 DEX
+  - kind: ethereum
+    name: SwapXPairFactory
+    network: sonic
+    source:
+      address: "0x05c1be79d3aC21Cc4B727eeD58C9B2fF757F5663"
+      abi: PoolFactory
+      startBlock: 1
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Pool
+        - PoolFactory
+      abis:
+        - name: PoolFactory
+          file: ./abis/PoolFactory.json
+      eventHandlers:
+        - event: PoolCreated(indexed address,indexed address,indexed address,uint24)
+          handler: handlePoolCreated
+      file: ./src/dex-mapping.ts
+      
+  # Algebra Integral V4
+  - kind: ethereum
+    name: AlgebraFactory
+    network: sonic
+    source:
+      address: "0x8121a3F8c4176E9765deEa0B95FA2BDfD3016794" 
+      abi: PoolFactory
+      startBlock: 1
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Pool
+        - PoolFactory
+      abis:
+        - name: PoolFactory
+          file: ./abis/PoolFactory.json
+      eventHandlers:
+        - event: PoolCreated(indexed address,indexed address,indexed address,uint24)
+          handler: handlePoolCreated
+      file: ./src/dex-mapping.ts
+      
+  # Metro DEX
+  - kind: ethereum
+    name: MetroLBFactory
+    network: sonic
+    source:
+      address: "0x95a7e403d7cF20F675fF9273D66e94d35ba49fA3"
+      abi: PoolFactory
+      startBlock: 1
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Pool
+        - PoolFactory
+      abis:
+        - name: PoolFactory
+          file: ./abis/PoolFactory.json
+      eventHandlers:
+        - event: PoolCreated(indexed address,indexed address,indexed address,uint24)
+          handler: handlePoolCreated
+      file: ./src/dex-mapping.ts
+  
+  # Core token and contracts
+  - kind: ethereum
+    name: WrappedS
+    network: sonic
+    source:
+      address: "0x039e2fB66102314Ce7b64Ce5Ce3E5183bc94aD38"
+      abi: ERC20
+      startBlock: 1
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - WSTransfer
+        - WSApproval
+      abis:
+        - name: ERC20
+          file: ./abis/ERC20.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleWSTransfer
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleWSApproval
+      file: ./src/wrapped-s-mapping.ts
+
+  - kind: ethereum
+    name: WETH
+    network: sonic
+    source:
+      address: "0x50c42dEAcD8Fc9773493ED674b675bE577f2634b"
+      abi: ERC20
+      startBlock: 1
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - TokenTransfer
+        - TokenApproval
+      abis:
+        - name: ERC20
+          file: ./abis/ERC20.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTokenTransfer
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleTokenApproval
+      file: ./src/token-mapping.ts
+
+  - kind: ethereum
+    name: USDC
+    network: sonic
+    source:
+      address: "0x29219dd400f2Bf60E5a23d13Be72B486D4038894"
+      abi: ERC20
+      startBlock: 1
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - TokenTransfer
+        - TokenApproval
+      abis:
+        - name: ERC20
+          file: ./abis/ERC20.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTokenTransfer
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleTokenApproval
+      file: ./src/token-mapping.ts
+
+  - kind: ethereum
+    name: EURC
+    network: sonic
+    source:
+      address: "0xe715cba7b5ccb33790cebff1436809d36cb17e57"
+      abi: ERC20
+      startBlock: 1
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - TokenTransfer
+        - TokenApproval
+      abis:
+        - name: ERC20
+          file: ./abis/ERC20.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTokenTransfer
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleTokenApproval
+      file: ./src/token-mapping.ts
+
+  - kind: ethereum
+    name: USDT
+    network: sonic
+    source:
+      address: "0x6047828dc181963ba44974801ff68e538da5eaf9"
+      abi: ERC20
+      startBlock: 1
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - TokenTransfer
+        - TokenApproval
+      abis:
+        - name: ERC20
+          file: ./abis/ERC20.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTokenTransfer
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleTokenApproval
+      file: ./src/token-mapping.ts
+
+  - kind: ethereum
+    name: SFC
+    network: sonic
+    source:
+      address: "0xFC00FACE00000000000000000000000000000000"
+      abi: SFC
+      startBlock: 1
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - SFCDelegation
+        - SFCUndelegation
+        - SFCClaimedRewards
+        - SFCLockedUp
+      abis:
+        - name: SFC
+          file: ./abis/SFC.json
+      eventHandlers:
+        - event: Delegated(address,uint256,uint256)
+          handler: handleDelegated
+        - event: Undelegated(address,uint256,uint256,uint256)
+          handler: handleUndelegated
+        - event: ClaimedRewards(address,uint256,uint256)
+          handler: handleClaimedRewards
+        - event: LockedUp(address,uint256,uint256,uint256)
+          handler: handleLockedUp
+      file: ./src/sfc-mapping.ts
+
+  - kind: ethereum
+    name: Bridge
+    network: sonic
+    source:
+      address: "0x9Ef7629F9B930168b76283AdD7120777b3c895b3"
+      abi: Bridge
+      startBlock: 1
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - BridgeTransfer
+      abis:
+        - name: Bridge
+          file: ./abis/Bridge.json
+      eventHandlers:
+        - event: TokensTransferred(address,address,address,uint256,uint256,uint256)
+          handler: handleTokensTransferred
+      file: ./src/bridge-mapping.ts
+
+  - kind: ethereum
+    name: MessageBus
+    network: sonic
+    source:
+      address: "0xB5B371B75f9850dDD6CCB6C436DB54972a925308"
+      abi: MessageBus
+      startBlock: 1
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - MessageSent
+        - MessageExecuted
+      abis:
+        - name: MessageBus
+          file: ./abis/MessageBus.json
+      eventHandlers:
+        - event: MessageSent(address,address,uint256,uint256,bytes)
+          handler: handleMessageSent
+        - event: MessageExecuted(address,address,uint256,uint256,bytes)
+          handler: handleMessageExecuted
+      file: ./src/message-bus-mapping.ts
+
+  - kind: ethereum
+    name: FTMtoSUpgradePortal
+    network: sonic
+    source:
+      address: "0x3561607590e28e0848ba3B67074C676D6D1C9953"
+      abi: UpgradePortal
+      startBlock: 1
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - UpgradeInitiated
+        - UpgradeCompleted
+      abis:
+        - name: UpgradePortal
+          file: ./abis/UpgradePortal.json
+      eventHandlers:
+        - event: UpgradeInitiated(address,uint256)
+          handler: handleUpgradeInitiated
+        - event: UpgradeCompleted(address,uint256)
+          handler: handleUpgradeCompleted
+      file: ./src/upgrade-portal-mapping.ts
+
+templates:
+  - kind: ethereum
+    name: Pool
+    network: sonic
+    source:
+      abi: Pool
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/dex-mapping.ts
+      entities:
+        - Pool
+        - Swap
+      abis:
+        - name: Pool
+          file: ./abis/Pool.json
+      eventHandlers:
+        - event: Swap(indexed address,indexed address,int256,int256,uint160,uint128,int24)
+          handler: handleSwap

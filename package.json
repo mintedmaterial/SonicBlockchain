@@ -1,0 +1,32 @@
+{
+    "name": "sonic-blockchain-subgraph",
+    "version": "1.0.0",
+    "description": "Subgraph for indexing Sonic blockchain contracts including DEX, tokens, and infrastructure",
+    "scripts": {
+        "codegen": "graph codegen",
+        "build": "graph build",
+        "create-local": "graph create --node http://localhost:8020/ sonic-subgraph",
+        "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 sonic-subgraph",
+        "deploy": "graph deploy sonic-subgraph --version-label v1.0.0 --node https://subgraphs.alchemy.com/api/subgraphs/deploy --deploy-key M4maWvDx0WKef --ipfs https://ipfs.satsuma.xyz"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mintedmaterial/SonicBlockchain.git"
+    },
+    "keywords": [
+        "sonic",
+        "blockchain",
+        "subgraph",
+        "thegraph",
+        "graphprotocol",
+        "dex",
+        "defi"
+    ],
+    "author": "mintedmaterial",
+    "license": "MIT",
+    "devDependencies": {
+        "@graphprotocol/graph-cli": "^0.97.0",
+        "@graphprotocol/graph-ts": "^0.31.0",
+        "typescript": "^5.0.4"
+    }
+}

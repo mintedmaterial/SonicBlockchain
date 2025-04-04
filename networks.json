@@ -1,0 +1,57 @@
+{
+    "sonic": {
+      "WrappedS": {
+        "address": "0x039e2fB66102314Ce7b64Ce5Ce3E5183bc94aD38",
+        "startBlock": 1
+      },
+      "WETH": {
+        "address": "0x50c42dEAcD8Fc9773493ED674b675bE577f2634b", 
+        "startBlock": 1
+      },
+      "USDC": {
+        "address": "0x29219dd400f2Bf60E5a23d13Be72B486D4038894",
+        "startBlock": 1
+      },
+      "EURC": {
+        "address": "0xe715cba7b5ccb33790cebff1436809d36cb17e57",
+        "startBlock": 1
+      },
+      "USDT": {
+        "address": "0x6047828dc181963ba44974801ff68e538da5eaf9",
+        "startBlock": 1
+      },
+      "SFC": {
+        "address": "0xFC00FACE00000000000000000000000000000000",
+        "startBlock": 1
+      },
+      "Bridge": {
+        "address": "0x9Ef7629F9B930168b76283AdD7120777b3c895b3",
+        "startBlock": 1
+      },
+      "MessageBus": {
+        "address": "0xB5B371B75f9850dDD6CCB6C436DB54972a925308",
+        "startBlock": 1
+      },
+      "FTMtoSUpgradePortal": {
+        "address": "0x3561607590e28e0848ba3B67074C676D6D1C9953",
+        "startBlock": 1
+      },
+      "ShadowPairFactory": {
+        "address": "0x2dA25E7446A70D7be65fd4c053948BEcAA6374c8",
+        "startBlock": 1
+      },
+      "SwapXPairFactory": {
+        "address": "0x05c1be79d3aC21Cc4B727eeD58C9B2fF757F5663",
+        "startBlock": 1
+      },
+      "AlgebraFactory": {
+        "address": "0x8121a3F8c4176E9765deEa0B95FA2BDfD3016794",
+        "startBlock": 1 
+      },
+      "MetroLBFactory": {
+        "address": "0x95a7e403d7cF20F675fF9273D66e94d35ba49fA3",
+        "startBlock": 1
+      }
+    }
+  }
+  
