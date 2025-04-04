@@ -203,7 +203,36 @@ type TokenPrice @entity(immutable: true) {
   lastUpdatedTimestamp: BigInt!
 }
 
-# Stats entity to track aggregated data
+# Stats entities to track aggregated data for different time periods
+type HourlyStats @entity(immutable: true) {
+  id: ID! # YYYY-MM-DD-HH
+  timestamp: BigInt!
+  transactionCount: BigInt!
+  activeAddresses: BigInt!
+  totalValueLocked: BigInt!
+  bridgeInflow: BigInt!
+  bridgeOutflow: BigInt!
+  sfcTotalStaked: BigInt!
+  sfcTotalDelegated: BigInt!
+  dexVolume: BigDecimal!
+  dexSwapCount: BigInt!
+}
+
+type ThreeDayStats @entity(immutable: true) {
+  id: ID! # YYYY-MM-DD (start of 3-day period)
+  startTimestamp: BigInt!
+  endTimestamp: BigInt!
+  transactionCount: BigInt!
+  activeAddresses: BigInt!
+  totalValueLocked: BigInt!
+  bridgeInflow: BigInt!
+  bridgeOutflow: BigInt!
+  sfcTotalStaked: BigInt!
+  sfcTotalDelegated: BigInt!
+  dexVolume: BigDecimal!
+  dexSwapCount: BigInt!
+}
+
 type DailyStats @entity(immutable: true) {
   id: ID! # YYYY-MM-DD
   date: String!
