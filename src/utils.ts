@@ -9,7 +9,8 @@ export function createTransaction(event: ethereum.Event): Transaction {
   transaction.from = event.transaction.from;
   transaction.to = event.transaction.to;
   transaction.value = event.transaction.value;
-  transaction.gasUsed = event.transaction.gasUsed;
+  let receipt = event.receipt;
+  transaction.gasUsed = receipt ? receipt.gasUsed : BigInt.fromI32(0);
   transaction.gasPrice = event.transaction.gasPrice;
   transaction.save();
   
@@ -20,7 +21,7 @@ export function generateId(event: ethereum.Event): Bytes {
   return event.transaction.hash.concatI32(event.logIndex.toI32());
 }
 
-export function getTimestampInDays(timestamp: BigInt): i32 {
+export function getTimestampInDays(timestamp: BigInt): number {
   // Convert timestamp to day
   const secondsPerDay = 86400;
   return timestamp.toI32() / secondsPerDay;

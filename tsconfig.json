@@ -1,28 +1,28 @@
 {
-    "compilerOptions": {
-      "target": "es2020",
-      "module": "commonjs",
-      "strict": true,
-      "esModuleInterop": true,
-      "skipLibCheck": true,
-      "forceConsistentCasingInFileNames": true,
-      "resolveJsonModule": true,
-      "rootDir": "src",
-      "outDir": "build",
-      "lib": [
-        "es2020"
-      ],
-      "types": [
-        "@graphprotocol/graph-ts"
-      ]
-    },
-    "include": [
-      "src"
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "outDir": "build",
+    "lib": [
+      "es2020"
     ],
-    "exclude": [
-      "node_modules",
-      "build",
-      "generated"
+    "types": [
+      "@graphprotocol/graph-ts",
+      "@graphprotocol/graph-cli",
+      "assemblyscript-temporal"
     ]
-  }
-  
+  },
+  "include": [
+    "src",
+    "generated"
+  ],
+  "exclude": [
+    "node_modules",
+    "build"
+  ]
+}

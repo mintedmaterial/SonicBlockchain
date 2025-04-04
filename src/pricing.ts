@@ -16,7 +16,7 @@ export const ZERO_BI = BigInt.fromI32(0);
 export const ONE_BI = BigInt.fromI32(1);
 
 // Convert decimals
-export function exponentToBigDecimal(decimals: i32): BigDecimal {
+export function exponentToBigDecimal(decimals: number): BigDecimal {
   let bd = BigDecimal.fromString('1');
   for (let i = 0; i < decimals; i++) {
     bd = bd.times(BigDecimal.fromString('10'));
@@ -25,7 +25,7 @@ export function exponentToBigDecimal(decimals: i32): BigDecimal {
 }
 
 // Convert BigInt to BigDecimal with proper decimal places
-export function convertTokenToDecimal(tokenAmount: BigInt, exchangeDecimals: i32): BigDecimal {
+export function convertTokenToDecimal(tokenAmount: BigInt, exchangeDecimals: number): BigDecimal {
   if (exchangeDecimals == 0) {
     return tokenAmount.toBigDecimal();
   }
@@ -63,8 +63,9 @@ export function updateTokenPrices(
   token1Address: Address,
   token0Amount: BigInt,
   token1Amount: BigInt,
-  token0Decimals: i32 = DEFAULT_DECIMALS,
-  token1Decimals: i32 = DEFAULT_DECIMALS
+  blockTimestamp: BigInt,
+  token0Decimals: number = DEFAULT_DECIMALS,
+  token1Decimals: number = DEFAULT_DECIMALS
 ): void {
   // Skip if either amount is zero
   if (token0Amount.equals(ZERO_BI) || token1Amount.equals(ZERO_BI)) {
@@ -83,24 +84,24 @@ export function updateTokenPrices(
   if (token0Address.toHexString() == USDC_ADDRESS) {
     // Token1 price in USD = USDC amount / Token1 amount
     token1Price.priceUSD = amount0.div(amount1);
-    token1Price.lastUpdatedTimestamp = BigInt.fromI32(Math.floor(Date.now() / 1000));
+    token1Price.lastUpdatedTimestamp = blockTimestamp;
     token1Price.save();
   } else if (token1Address.toHexString() == USDC_ADDRESS) {
     // Token0 price in USD = USDC amount / Token0 amount
     token0Price.priceUSD = amount1.div(amount0);
-    token0Price.lastUpdatedTimestamp = BigInt.fromI32(Math.floor(Date.now() / 1000));
+    token0Price.lastUpdatedTimestamp = blockTimestamp;
     token0Price.save();
   } 
   // If neither token is USDC but one has a price, derive the other's price
   else if (token0Price.priceUSD.notEqual(ZERO_BD)) {
     // Token1 price = (Token0 amount * Token0 price) / Token1 amount
     token1Price.priceUSD = amount0.times(token0Price.priceUSD).div(amount1);
-    token1Price.lastUpdatedTimestamp = BigInt.fromI32(Math.floor(Date.now() / 1000));
+    token1Price.lastUpdatedTimestamp = blockTimestamp;
     token1Price.save();
   } else if (token1Price.priceUSD.notEqual(ZERO_BD)) {
     // Token0 price = (Token1 amount * Token1 price) / Token0 amount
     token0Price.priceUSD = amount1.times(token1Price.priceUSD).div(amount0);
-    token0Price.lastUpdatedTimestamp = BigInt.fromI32(Math.floor(Date.now() / 1000));
+    token0Price.lastUpdatedTimestamp = blockTimestamp;
     token0Price.save();
   }
 }
@@ -118,7 +119,7 @@ export function getTokenPriceUSD(tokenAddress: Address): BigDecimal {
 export function calculateUSDValue(
   tokenAddress: Address, 
   tokenAmount: BigInt, 
-  tokenDecimals: i32 = DEFAULT_DECIMALS
+  tokenDecimals: number = DEFAULT_DECIMALS
 ): BigDecimal {
   let tokenPrice = getTokenPriceUSD(tokenAddress);
   let amount = convertTokenToDecimal(tokenAmount, tokenDecimals);

@@ -72,4 +72,5 @@
       ],
       "name": "MessageExecuted",
       "type": "event"
-  
+    }
+]

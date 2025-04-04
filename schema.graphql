@@ -1,4 +1,4 @@
-type Transaction @entity {
+type Transaction @entity(immutable: true) {
   id: ID!
   hash: String!
   blockNumber: BigInt!
@@ -32,7 +32,7 @@ type WSApproval @entity(immutable: true) {
 }
 
 # SFC (Staking) related events
-type SFCDelegation @entity {
+type SFCDelegation @entity(immutable: true) {
   id: ID!
   delegator: Bytes!
   toValidatorId: BigInt!
@@ -41,7 +41,7 @@ type SFCDelegation @entity {
   transaction: Transaction!
 }
 
-type SFCUndelegation @entity {
+type SFCUndelegation @entity(immutable: true) {
   id: ID!
   delegator: Bytes!
   toValidatorId: BigInt!
@@ -51,7 +51,7 @@ type SFCUndelegation @entity {
   transaction: Transaction!
 }
 
-type SFCClaimedRewards @entity {
+type SFCClaimedRewards @entity(immutable: true) {
   id: ID!
   delegator: Bytes!
   toValidatorId: BigInt!
@@ -60,7 +60,7 @@ type SFCClaimedRewards @entity {
   transaction: Transaction!
 }
 
-type SFCLockedUp @entity {
+type SFCLockedUp @entity(immutable: true) {
   id: ID!
   delegator: Bytes!
   toValidatorId: BigInt!
@@ -152,7 +152,7 @@ type UpgradeCompleted @entity(immutable: true) {
 }
 
 # DEX related entities
-type Pool @entity {
+type Pool @entity(immutable: true) {
   id: ID!
   factory: PoolFactory!
   address: Bytes!
@@ -171,7 +171,7 @@ type Pool @entity {
   swaps: [Swap!]! @derivedFrom(field: "pool")
 }
 
-type PoolFactory @entity {
+type PoolFactory @entity(immutable: true) {
   id: ID!
   name: String!
   poolCount: BigInt!
@@ -196,7 +196,7 @@ type Swap @entity(immutable: true) {
 }
 
 # Price tracking entities
-type TokenPrice @entity {
+type TokenPrice @entity(immutable: true) {
   id: ID! # token address
   token: Bytes!
   priceUSD: BigDecimal!
@@ -204,7 +204,7 @@ type TokenPrice @entity {
 }
 
 # Stats entity to track aggregated data
-type DailyStats @entity {
+type DailyStats @entity(immutable: true) {
   id: ID! # YYYY-MM-DD
   date: String!
   transactionCount: BigInt!

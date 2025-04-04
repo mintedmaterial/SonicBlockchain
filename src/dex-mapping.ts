@@ -1,7 +1,7 @@
 import { BigInt, BigDecimal, Address } from '@graphprotocol/graph-ts';
 import {
   PoolCreated as PoolCreatedEvent
-} from '../generated/BeetsWeightedPoolFactory/PoolFactory';
+} from '../generated/ShadowPairFactory/PoolFactory';
 import { Swap as SwapEvent } from '../generated/templates/Pool/Pool';
 import { Pool as PoolTemplate } from '../generated/templates';
 import { 
@@ -66,7 +66,7 @@ export function handlePoolCreated(event: PoolCreatedEvent): void {
   pool.address = event.params.pool;
   pool.token0 = event.params.token0;
   pool.token1 = event.params.token1;
-  pool.fee = BigInt.fromI32(event.params.fee as i32);
+  pool.fee = BigInt.fromI32(event.params.fee);
   pool.createdAt = event.block.timestamp;
   pool.createdAtBlockNumber = event.block.number;
   pool.totalValueLockedToken0 = BigInt.fromI32(0);
@@ -111,7 +111,8 @@ export function handleSwap(event: SwapEvent): void {
       token0Address,
       token1Address,
       swap.amount0,
-      swap.amount1
+      swap.amount1,
+      event.block.timestamp
     );
     
     // Calculate USD value of the swap

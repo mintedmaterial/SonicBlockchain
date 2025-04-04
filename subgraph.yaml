@@ -236,13 +236,13 @@ dataSources:
         - name: SFC
           file: ./abis/SFC.json
       eventHandlers:
-        - event: Delegated(address,uint256,uint256)
+        - event: Delegated(indexed address,indexed uint256,uint256)
           handler: handleDelegated
-        - event: Undelegated(address,uint256,uint256,uint256)
+        - event: Undelegated(indexed address,indexed uint256,uint256,uint256)
           handler: handleUndelegated
-        - event: ClaimedRewards(address,uint256,uint256)
+        - event: ClaimedRewards(indexed address,indexed uint256,uint256)
           handler: handleClaimedRewards
-        - event: LockedUp(address,uint256,uint256,uint256)
+        - event: LockedUp(indexed address,indexed uint256,uint256,uint256)
           handler: handleLockedUp
       file: ./src/sfc-mapping.ts
 
@@ -263,7 +263,7 @@ dataSources:
         - name: Bridge
           file: ./abis/Bridge.json
       eventHandlers:
-        - event: TokensTransferred(address,address,address,uint256,uint256,uint256)
+        - event: TokensTransferred(indexed address,indexed address,indexed address,uint256,uint256,uint256)
           handler: handleTokensTransferred
       file: ./src/bridge-mapping.ts
 
@@ -285,9 +285,9 @@ dataSources:
         - name: MessageBus
           file: ./abis/MessageBus.json
       eventHandlers:
-        - event: MessageSent(address,address,uint256,uint256,bytes)
+        - event: MessageSent(indexed address,indexed address,uint256,uint256,bytes)
           handler: handleMessageSent
-        - event: MessageExecuted(address,address,uint256,uint256,bytes)
+        - event: MessageExecuted(indexed address,indexed address,uint256,uint256,bytes)
           handler: handleMessageExecuted
       file: ./src/message-bus-mapping.ts
 
@@ -309,9 +309,9 @@ dataSources:
         - name: UpgradePortal
           file: ./abis/UpgradePortal.json
       eventHandlers:
-        - event: UpgradeInitiated(address,uint256)
+        - event: UpgradeInitiated(indexed address,uint256)
           handler: handleUpgradeInitiated
-        - event: UpgradeCompleted(address,uint256)
+        - event: UpgradeCompleted(indexed address,uint256)
           handler: handleUpgradeCompleted
       file: ./src/upgrade-portal-mapping.ts
 
