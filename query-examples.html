@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sonic Blockchain Subgraph Query Examples</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .query-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        pre {
+            background: #f8f8f8;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        #results {
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sonic Blockchain Subgraph Query Examples</h1>
+        
+        <div class="query-section">
+            <h2>Recent Transactions</h2>
+            <pre>
+query {
+    transactions(
+        first: 5
+        orderBy: timestamp
+        orderDirection: desc
+    ) {
+        id
+        hash
+        timestamp
+        from
+        to
+        value
+        gasUsed
+        gasPrice
+    }
+}</pre>
+            <button onclick="executeQuery('transactions')">Run Query</button>
+        </div>
+
+        <div class="query-section">
+            <h2>DEX Pools Overview</h2>
+            <pre>
+query {
+    pools(
+        first: 5
+        orderBy: totalValueLockedUSD
+        orderDirection: desc
+    ) {
+        id
+        factory {
+            id
+            name
+        }
+        token0
+        token1
+        totalValueLockedToken0
+        totalValueLockedToken1
+        totalValueLockedUSD
+        volumeUSD
+    }
+}</pre>
+            <button onclick="executeQuery('pools')">Run Query</button>
+        </div>
+
+        <div class="query-section">
+            <h2>Recent Swaps</h2>
+            <pre>
+query {
+    swaps(
+        first: 5
+        orderBy: timestamp
+        orderDirection: desc
+    ) {
+        id
+        timestamp
+        pool {
+            id
+        }
+        sender
+        recipient
+        amount0
+        amount1
+        amountUSD
+    }
+}</pre>
+            <button onclick="executeQuery('swaps')">Run Query</button>
+        </div>
+
+        <div class="query-section">
+            <h2>Bridge Transfers</h2>
+            <pre>
+query {
+    bridgeTransfers(
+        first: 5
+        orderBy: timestamp
+        orderDirection: desc
+    ) {
+        id
+        tokenAddress
+        from
+        to
+        amount
+        timestamp
+        sourceChain
+        destinationChain
+    }
+}</pre>
+            <button onclick="executeQuery('bridgeTransfers')">Run Query</button>
+        </div>
+
+        <div class="query-section">
+            <h2>Staking Activity</h2>
+            <pre>
+query {
+    sfcDelegations(
+        first: 5
+        orderBy: timestamp
+        orderDirection: desc
+    ) {
+        id
+        delegator
+        toValidatorId
+        amount
+        timestamp
+    }
+}</pre>
+            <button onclick="executeQuery('staking')">Run Query</button>
+        </div>
+
+        <div class="query-section">
+            <h2>Time-based Stats</h2>
+            <pre>
+query {
+    hourlyStats(
+        first: 1
+        orderBy: timestamp
+        orderDirection: desc
+    ) {
+        id
+        timestamp
+        transactionCount
+        activeAddresses
+        totalValueLocked
+        bridgeInflow
+        bridgeOutflow
+        sfcTotalStaked
+        dexVolume
+    }
+    dailyStats(
+        first: 1
+        orderBy: date
+        orderDirection: desc
+    ) {
+        id
+        date
+        transactionCount
+        activeAddresses
+        totalValueLocked
+        bridgeInflow
+        bridgeOutflow
+        sfcTotalStaked
+        dexVolume
+    }
+    threeDayStats(
+        first: 1
+        orderBy: startTimestamp
+        orderDirection: desc
+    ) {
+        id
+        startTimestamp
+        endTimestamp
+        transactionCount
+        activeAddresses
+        totalValueLocked
+        bridgeInflow
+        bridgeOutflow
+        sfcTotalStaked
+        dexVolume
+    }
+}</pre>
+            <button onclick="executeQuery('stats')">Run Query</button>
+        </div>
+
+        <div id="results"></div>
+    </div>
+
+    <script>
+        const SUBGRAPH_URL = 'https://subgraph.satsuma-prod.com/496ce6650bfa/colts-team--432938/sonic-blockchain-subgraph/api';
+
+        const queries = {
+            transactions: `{
+                transactions(first: 5, orderBy: timestamp, orderDirection: desc) {
+                    id
+                    hash
+                    timestamp
+                    from
+                    to
+                    value
+                    gasUsed
+                    gasPrice
+                }
+            }`,
+            pools: `{
+                pools(first: 5, orderBy: totalValueLockedUSD, orderDirection: desc) {
+                    id
+                    factory {
+                        id
+                        name
+                    }
+                    token0
+                    token1
+                    totalValueLockedToken0
+                    totalValueLockedToken1
+                    totalValueLockedUSD
+                    volumeUSD
+                }
+            }`,
+            swaps: `{
+                swaps(first: 5, orderBy: timestamp, orderDirection: desc) {
+                    id
+                    timestamp
+                    pool {
+                        id
+                    }
+                    sender
+                    recipient
+                    amount0
+                    amount1
+                    amountUSD
+                }
+            }`,
+            bridgeTransfers: `{
+                bridgeTransfers(first: 5, orderBy: timestamp, orderDirection: desc) {
+                    id
+                    tokenAddress
+                    from
+                    to
+                    amount
+                    timestamp
+                    sourceChain
+                    destinationChain
+                }
+            }`,
+            staking: `{
+                sfcDelegations(first: 5, orderBy: timestamp, orderDirection: desc) {
+                    id
+                    delegator
+                    toValidatorId
+                    amount
+                    timestamp
+                }
+            }`,
+            stats: `{
+                hourlyStats(first: 1, orderBy: timestamp, orderDirection: desc) {
+                    id
+                    timestamp
+                    transactionCount
+                    activeAddresses
+                    totalValueLocked
+                    bridgeInflow
+                    bridgeOutflow
+                    sfcTotalStaked
+                    dexVolume
+                }
+                dailyStats(first: 1, orderBy: date, orderDirection: desc) {
+                    id
+                    date
+                    transactionCount
+                    activeAddresses
+                    totalValueLocked
+                    bridgeInflow
+                    bridgeOutflow
+                    sfcTotalStaked
+                    dexVolume
+                }
+                threeDayStats(first: 1, orderBy: startTimestamp, orderDirection: desc) {
+                    id
+                    startTimestamp
+                    endTimestamp
+                    transactionCount
+                    activeAddresses
+                    totalValueLocked
+                    bridgeInflow
+                    bridgeOutflow
+                    sfcTotalStaked
+                    dexVolume
+                }
+            }`
+        };
+
+        async function executeQuery(queryType) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = 'Loading...';
+
+            try {
+                const response = await fetch(SUBGRAPH_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        query: queries[queryType]
+                    })
+                });
+
+                const data = await response.json();
+                resultsDiv.innerHTML = `<h3>Results:</h3><pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (error) {
+                resultsDiv.innerHTML = `<h3>Error:</h3><pre>${error.message}</pre>`;
+            }
+        }
+    </script>
+</body>
+</html>
